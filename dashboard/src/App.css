@@ -1,0 +1,18 @@
+.link {
+  padding: 2% 2% 2% 2%;
+  text-decoration: none;
+}
+
+.link:hover {
+  background-color: rgba(255, 255, 255, 0.151);
+}
+
+.link:visited {
+  color: white;
+}
+
+#nav {
+  padding: 2% 0px 2% 0px;
+  background-color: rgb(1, 1, 48);
+  color: white;
+}
