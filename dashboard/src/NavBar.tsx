@@ -1,11 +1,12 @@
 import React from 'react';
 import {Navbar, Nav, Container} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class NavBar extends React.Component {
     render() {
         return (
             <div id='nav'>
-                <Navbar>
+                <Navbar variant="dark">
                     <Container>
                         <Navbar.Collapse>
                             <Nav>

@@ -8,16 +8,19 @@
 }
 
 .link:visited {
-  color: white;
+  background-color: white;
 }
 
 #nav {
   padding: 2% 0px 2% 0px;
   background-color: rgb(1, 1, 48);
-  color: white;
 }
 
 .holdings {
   display: flex;
   flex-direction: row;
+}
+
+.navbar > .container {
+  margin: 0;
 }
