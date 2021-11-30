@@ -1,10 +1,14 @@
 import React from 'react';
+import CryptoGraph from './CryptoGraph';
+import './App.css';
+
 
 class Holdings extends React.Component {
+    
     render() {
         return (
-            <div>
-                <p>Holdings</p>
+            <div className="holdings">
+                <CryptoGraph />
             </div>
         );
     }
