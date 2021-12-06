@@ -14,13 +14,14 @@ import './App.css';
 
 
 function CryptoGraph() {
-    var APIname = "bitcoin";
+    var APIid = "bitcoin";
+    var APIname = "Bitcoin";
     var currency = "usd";
-    var urlDay = "https://api.coingecko.com/api/v3/coins/" + APIname + "/market_chart?vs_currency=" + currency + "&days=" + 1;
-    var urlWeek = "https://api.coingecko.com/api/v3/coins/" + APIname + "/market_chart?vs_currency=" + currency + "&days=" + 7;
-    var urlMonth = "https://api.coingecko.com/api/v3/coins/" + APIname + "/market_chart?vs_currency=" + currency + "&days=" + 30;
-    var urlYear = "https://api.coingecko.com/api/v3/coins/" + APIname + "/market_chart?vs_currency=" + currency + "&days=" + 365;
-    var url5Years = "https://api.coingecko.com/api/v3/coins/" + APIname + "/market_chart?vs_currency=" + currency + "&days=" + 1825;
+    var urlDay = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 1;
+    var urlWeek = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 7;
+    var urlMonth = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 30;
+    var urlYear = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 365;
+    var url5Years = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 1825;
 
     const [data, setData] = useState<any>();
     const [data2, setData2] = useState<any>();
