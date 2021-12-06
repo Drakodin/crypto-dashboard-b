@@ -44,7 +44,6 @@ function HoldingsGraph() {
         })
         .catch(error => console.log(error));
     }, []);
-    console.log(data)
 
     var netEarnings = 0;
     var netPercentageChange = 0;
@@ -54,12 +53,29 @@ function HoldingsGraph() {
         netPercentageChange += data[i].price_change_percentage_24h;
     }
 
+    var isUp1 = true;
+    var isUp2 = true;
+
+    if (netEarnings >= 0) {
+        isUp1 = true;
+    } else {
+        isUp1 = false;
+    }
+
+    if(netPercentageChange >= 0) {
+        isUp2 = true;
+    } else {
+        isUp2 = false;
+    }
+    
+
     return (
-        <div>
+        <div id="holdings-graph">
             <h2>Your net earnings in the last 24 hours:</h2>
-            <h1>{netEarnings.toFixed(2)}</h1>
+            <h1 style={{color: isUp1 ? 'limegreen' : 'red'}}>${netEarnings.toFixed(2)}</h1>
+            <br></br>
             <h2>Your percentage change in the last 24 hours:</h2>
-            <h1>{netPercentageChange.toFixed(2)}%</h1>
+            <h1 style={{color: isUp2 ? 'limegreen' : 'red'}}>{netPercentageChange.toFixed(2)}%</h1>
         </div>
     );
     

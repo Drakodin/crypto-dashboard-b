@@ -132,7 +132,7 @@ function PieDiagrLabel() {
   }
 
   return(
-      <div>
+      <div id='pie-label'>
         <div style={divStyle2}> 
           {circlesrender()}
         </div>

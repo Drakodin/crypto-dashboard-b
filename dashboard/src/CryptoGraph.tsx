@@ -118,7 +118,7 @@ function CryptoGraph() {
     }
 
     return (
-        <div className="">
+        <div id="crypto-graph">
             <h1 id="coin-title">{APIname}</h1>
             <Tabs defaultActiveKey="today" id="tabs" className="mb-2" >
                 <Tab eventKey="today" title="Today">

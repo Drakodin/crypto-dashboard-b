@@ -1,6 +1,7 @@
 .link {
   padding: 2% 2% 2% 2%;
   text-decoration: none;
+  color: white;
 }
 
 .link:hover {
@@ -19,6 +20,13 @@
 .holdings {
   display: flex;
   flex-direction: row;
+  background-color: rgb(1, 1, 48);
+}
+
+#crypto-graph {
+  background-color: rgb(1, 1, 48);
+  padding-left: 30px;
+  color: white;
 }
 
 .navbar > .container {
@@ -28,4 +36,21 @@
 #dashboard {
   display: flex;
   flex-direction: row;
+  background-color: rgb(1, 1, 48);
+}
+
+#holdings-graph {
+  background-color: rgb(1, 1, 48);
+  text-align: center;
+  margin: auto;
+  color: white;
+}
+
+html {
+  background-color: rgb(1, 1, 48);
+}
+
+#browse {
+  background-color: rgb(1, 1, 48);
+  color: white;
 }

@@ -36,3 +36,15 @@
 #total{
   font-weight: 700;
 }
+
+#pie-diagram {
+  background-color: rgb(1, 1, 48);
+}
+
+#pie-label {
+  color: white;
+}
+
+html {
+  background-color: rgb(1, 1, 48);
+}

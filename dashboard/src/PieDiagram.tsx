@@ -14,7 +14,7 @@ function PieDiagram() {
   const cy = 300
   const cx = 250
 return (
-        <div>
+        <div id='pie-diagram'>
           <PieChart width={600} height={600}>
           <Pie 
             data={data} 
