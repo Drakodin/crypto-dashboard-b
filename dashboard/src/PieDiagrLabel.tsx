@@ -57,7 +57,7 @@ const totalrender = (data:any,apidata:any) => {
   console.log(data)
   console.log(typeof data[0])
 
-  if ((apidata === []) || !(typeof data === 'object')){
+  if ((apidata === [])){
     tex = 'Total'
   }
   else{
@@ -121,7 +121,7 @@ function PieDiagrLabel() {
     const [apidata, setApidata] = useState<any>([]);
 
     const getApi = async () => {
-      const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20litecoin');
+      const response = await fetch(url);
       //I wanted to sustitute the link with the url variable, but if I do so some error appears and it doesn t work//
       const data = await response.json();
       setApidata(data);
