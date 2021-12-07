@@ -47,7 +47,7 @@ return (
             dataKey="coins" 
             innerRadius={200} 
             outerRadius={250} 
-            fill="green"
+            // fill="green"
             cx={cx}
             cy={cy}
             // label={renderCustomizedLabel}

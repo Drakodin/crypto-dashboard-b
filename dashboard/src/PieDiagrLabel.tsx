@@ -1,38 +1,27 @@
 import './PieDiagram.css';
+import {useState, useEffect} from 'react';
 import { getTextWidth } from 'get-text-width';
 var height = require('text-height');
 
 
+
+
 //initial constatns idk
-const data = [
-	{ name: 'BitCoin', value: 400 },
-	{ name: 'Ethereum', value: 300 },
-	{ name: 'Litecoin', value: 300 },
-	{ name: 'Dogecoin', value: 200 },
-];
+// const data = [
+// 	{ name: 'BitCoin', value: 400 },
+// 	{ name: 'Ethereum', value: 300 },
+// 	{ name: 'Litecoin', value: 300 },
+// 	{ name: 'Dogecoin', value: 200 },
+// ];
 const COLORS = ['#2e2c4d', '#14508f', '#2085ec', '#72b4eb', '#8464a0', '#cea9bc',];
 const cy = 152.2+ 250
 const cx = 250
 
 
-//general constants used throughout the code
-  let sum = 0 //sum of all values
-  let max = 0 //max length of a line
-  for (let i=0; i<data.length;i++){
-    sum += data[i]['value']
-  }
-  const dataStr = data.map((dict) => dict.name+` - ${(dict.value/sum * 100).toFixed(0)}%`)
-  dataStr.unshift('Total - '+sum+'$') //contains all lines to be rendered
-  for (let i=0; i<dataStr.length;i++){
-    if (max < getTextWidth(dataStr[i])){
-      max = getTextWidth(dataStr[i])
-    }
-  }
-  max = max - 28 //adjusting max for the circles on the left
-  const margintopused = '2px'
-  const heightLetter = height(dataStr[0])['height']
-  const heightBlock = (heightLetter+parseInt(margintopused.slice(0,-2),10))*data.length
-  // console.log('height'+heightLetter)
+const margintopused = '2px'
+
+
+// console.log('height'+heightLetter)
   // console.log('heightbig'+heightBlock)
 
   // let box = document.querySelector('.circle');
@@ -43,7 +32,7 @@ const cx = 250
 
 //funcs
 
-const labelsrender = () => {
+const labelsrender = (dataStr: any[]) => {
   let tex = ''
   const divStyle = {marginTop:margintopused}
   // let xcord = 0
@@ -64,7 +53,7 @@ const labelsrender = () => {
   )
 }
 
-const circlesrender = () => {
+const circlesrender = (dataStr: any[]) => {
   // const newmargin = parseInt(margintopused.slice(0,-2),10) +6.6
   // const newbotmargn = newmargin +3
   const divStyle = {marginTop:'8.6px', marginBottom:'14.px'};
@@ -85,7 +74,7 @@ const circlesrender = () => {
   ) 
 }
 
-const totalrender = () => {
+const totalrender = (dataStr: any[]) => {
   let tex = ''
   // let xcord = 0
   // let ycord = 0
@@ -101,6 +90,47 @@ const totalrender = () => {
 }
 
 function PieDiagrLabel() {
+  const [data, setData] = useState([]);
+  const getData=()=> {
+      fetch('holdings.json', {
+          headers : { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+             }
+          })
+          .then(function(response){
+              //console.log(response)
+              return response.json();
+          })
+          .then(function(myJson) {
+              setData(myJson);
+          }); 
+  }
+  useEffect(()=> {
+      getData()
+  }, [])
+
+
+
+
+  let sum = 0 //sum of all values
+  let max = 0 //max length of a line
+  for (let i=0; i<data.length;i++){
+    sum += data[i]['coins']
+  }
+  const dataStr = data.map((dict : any) => dict.name+` - ${(dict.coins/sum * 100).toFixed(0)}%`)
+  dataStr.unshift('Total - '+sum+'$') //contains all lines to be rendered
+  for (let i=0; i<dataStr.length;i++){
+    if (max < getTextWidth(dataStr[i])){
+      max = getTextWidth(dataStr[i])
+    }
+  }
+  max = max - 28 //adjusting max for the circles on the left
+  const heightLetter = height(dataStr[0])['height']
+  const heightBlock = (heightLetter+parseInt(margintopused.slice(0,-2),10))*data.length
+
+
+
   //coordinates and styles for absolute layout
   const xcord = cx-max/2;
   const ycord = cy-heightBlock/2;
@@ -134,13 +164,13 @@ function PieDiagrLabel() {
   return(
       <div id='pie-label'>
         <div style={divStyle2}> 
-          {circlesrender()}
+          {circlesrender(dataStr)}
         </div>
         <div style={divStyle}> 
-          {labelsrender()}
+          {labelsrender(dataStr)}
         </div>
         <div style={divStyle3}> 
-          {totalrender()}
+          {totalrender(dataStr)}
         </div>
       </div>
   )
