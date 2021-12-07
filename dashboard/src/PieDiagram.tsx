@@ -8,7 +8,7 @@ import {useState, useEffect} from 'react';
 // 	{ name: 'Litecoin', value: 300 },
 // 	{ name: 'Dogecoin', value: 200 },
 // ];
-const COLORS = ['#2e2c4d', '#14508f', '#2085ec', '#72b4eb', '#8464a0', '#cea9bc',];
+const COLORS = ['#14508f', '#2085ec', '#2e2c4d', '#72b4eb', '#8464a0', '#cea9bc',];
 
 function PieDiagram() {
   const [data, setData] = useState([]);
@@ -36,6 +36,9 @@ const getData=()=> {
 useEffect(()=> {
     getData()
 }, [])
+
+  data.sort((a :any, b:any) => parseFloat(b.coins) - parseFloat(a.coins));
+
   const cy = 300
   const cx = 250
 return (

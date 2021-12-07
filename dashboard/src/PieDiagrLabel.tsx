@@ -1,33 +1,16 @@
 import './PieDiagram.css';
 import {useState, useEffect} from 'react';
+import axios from 'axios';
 import { getTextWidth } from 'get-text-width';
 var height = require('text-height');
 
 
+const COLORS = ['#14508f', '#2085ec', '#2e2c4d', '#72b4eb', '#8464a0', '#cea9bc',];
 
-
-//initial constatns idk
-// const data = [
-// 	{ name: 'BitCoin', value: 400 },
-// 	{ name: 'Ethereum', value: 300 },
-// 	{ name: 'Litecoin', value: 300 },
-// 	{ name: 'Dogecoin', value: 200 },
-// ];
-const COLORS = ['#2e2c4d', '#14508f', '#2085ec', '#72b4eb', '#8464a0', '#cea9bc',];
-const cy = 152.2+ 250
+const cy = 170+ 250
 const cx = 250
 
-
 const margintopused = '2px'
-
-
-// console.log('height'+heightLetter)
-  // console.log('heightbig'+heightBlock)
-
-  // let box = document.querySelector('.circle');
-  // let width1 = box.offsetWidth;
-  // let height1 = box.offsetHeight;
-  // console.log('width1 '+width1+'  height1 '+height1)
 
 
 //funcs
@@ -35,14 +18,10 @@ const margintopused = '2px'
 const labelsrender = (dataStr: any[]) => {
   let tex = ''
   const divStyle = {marginTop:margintopused}
-  // let xcord = 0
-  // let ycord = 0
 
   return (
     dataStr.slice(1).map((dict,index) => ( 
       tex = dataStr.slice(1)[index],
-      // xcord = cx-max/2,
-      // ycord = cy-heightBlock/2+index*20 + 100,
       <div style={divStyle}>
         <text  fill="black" key={index}>
           {tex}
@@ -58,13 +37,9 @@ const circlesrender = (dataStr: any[]) => {
   // const newbotmargn = newmargin +3
   const divStyle = {marginTop:'8.6px', marginBottom:'14.px'};
   let colorstyle={}
-  // let xcord = 0
-  // let ycord = 0
 
   return (
     dataStr.slice(1).map((dict,index) => ( 
-      // xcord = cx-max/2,
-      // ycord = cy-heightBlock/2+index*20 + 25,
       colorstyle = {backgroundColor:COLORS[index % COLORS.length]},
       <div style={divStyle}>
         <div className='circle' style= {colorstyle}></div>
@@ -74,13 +49,27 @@ const circlesrender = (dataStr: any[]) => {
   ) 
 }
 
-const totalrender = (dataStr: any[]) => {
+const totalrender = (data:any,apidata:any) => {
+  // console.log('totalrender apidata')
+  // console.log(apidata)
   let tex = ''
-  // let xcord = 0
-  // let ycord = 0
+  console.log('data with problems')
+  console.log(data)
+  console.log(typeof data[0])
 
+  if ((apidata === []) || !(typeof data === 'object')){
+    tex = 'Total'
+  }
+  else{
+    let sum = 0
+    for (let i=0; i<apidata.length;i++){
+      sum += parseFloat(apidata[i].current_price)*parseFloat(data[i].coins)
+    }
+    // console.log(sum)
+    tex = 'Total - '+Math.round(sum)+'$'
+  }
+  
   return (
-    tex = dataStr[0],
     <div>
       <text  fill="black" id='total'>
         {tex}
@@ -90,7 +79,8 @@ const totalrender = (dataStr: any[]) => {
 }
 
 function PieDiagrLabel() {
-  const [data, setData] = useState([]);
+
+  const [data , setData] = useState<any>([]);
   const getData=()=> {
       fetch('holdings.json', {
           headers : { 
@@ -110,8 +100,38 @@ function PieDiagrLabel() {
       getData()
   }, [])
 
+  data.sort((a:any, b:any) => parseFloat(b.coins) - parseFloat(a.coins));
 
+  
+  let coins = []
+  for (let i = 0; i < data.length; i++) {
+    coins.push(data[i].name)
+}
+  let str = '';
+    for (let i = 0; i < data.length; i++) {
+      if (i === data.length - 1) {
+            str += coins[i].toLowerCase() ;
+        } else {
+            str += coins[i].toLowerCase() + '%2C%20';
+        }
+    }
 
+    let url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + str
+    
+    const [apidata, setApidata] = useState<any>([]);
+
+    const getApi = async () => {
+      const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20litecoin');
+      //I wanted to sustitute the link with the url variable, but if I do so some error appears and it doesn t work//
+      const data = await response.json();
+      setApidata(data);
+      console.log('datadatdatdata')
+      console.log(data)
+    }
+useEffect(() => {
+  getApi()
+}, []);
+console.log(apidata)
 
   let sum = 0 //sum of all values
   let max = 0 //max length of a line
@@ -125,7 +145,7 @@ function PieDiagrLabel() {
       max = getTextWidth(dataStr[i])
     }
   }
-  max = max - 28 //adjusting max for the circles on the left
+  max = max - 0 //adjusting max for the circles on the left
   const heightLetter = height(dataStr[0])['height']
   const heightBlock = (heightLetter+parseInt(margintopused.slice(0,-2),10))*data.length
 
@@ -134,10 +154,10 @@ function PieDiagrLabel() {
   //coordinates and styles for absolute layout
   const xcord = cx-max/2;
   const ycord = cy-heightBlock/2;
-  console.log(xcord,ycord)
+  // console.log(xcord,ycord)
   const xcords = Math.round(xcord).toString(10)+'px';
   const ycords = Math.round(ycord).toString(10)+'px';
-  console.log(xcords,ycords)
+  // console.log(xcords,ycords)
 
   const divStyle = {
     position: 'absolute' as 'absolute',
@@ -170,7 +190,7 @@ function PieDiagrLabel() {
           {labelsrender(dataStr)}
         </div>
         <div style={divStyle3}> 
-          {totalrender(dataStr)}
+          {totalrender(data,apidata)}
         </div>
       </div>
   )
