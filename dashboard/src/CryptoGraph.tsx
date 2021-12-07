@@ -12,16 +12,19 @@ import {Tabs, Tab} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-
-function CryptoGraph() {
-    var APIid = "bitcoin";
-    var APIname = "Bitcoin";
+type idProps = {
+    id : string,
+    name : string
+}
+function CryptoGraph({id, name} : idProps) {
+    //var APIid = "bitcoin";
+    //var APIname = "Bitcoin";
     var currency = "usd";
-    var urlDay = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 1;
-    var urlWeek = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 7;
-    var urlMonth = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 30;
-    var urlYear = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 365;
-    var url5Years = "https://api.coingecko.com/api/v3/coins/" + APIid + "/market_chart?vs_currency=" + currency + "&days=" + 1825;
+    var urlDay = "https://api.coingecko.com/api/v3/coins/" + id + "/market_chart?vs_currency=" + currency + "&days=" + 1;
+    var urlWeek = "https://api.coingecko.com/api/v3/coins/" + id + "/market_chart?vs_currency=" + currency + "&days=" + 7;
+    var urlMonth = "https://api.coingecko.com/api/v3/coins/" + id + "/market_chart?vs_currency=" + currency + "&days=" + 30;
+    var urlYear = "https://api.coingecko.com/api/v3/coins/" + id + "/market_chart?vs_currency=" + currency + "&days=" + 365;
+    var url5Years = "https://api.coingecko.com/api/v3/coins/" + id + "/market_chart?vs_currency=" + currency + "&days=" + 1825;
 
     const [data, setData] = useState<any>();
     const [data2, setData2] = useState<any>();
@@ -44,7 +47,7 @@ function CryptoGraph() {
             setData5(five.data);
         }))
         .catch(error => console.log(error));
-    }, []);
+    }, [id]);
 
     var dataSorted = [];
     var pricesArr = [];
@@ -119,8 +122,8 @@ function CryptoGraph() {
     }
 
     return (
-        <div id="crypto-graph">
-            <h1 id="coin-title">{APIname}</h1>
+        <div id="crypto-graph" style={{minWidth: 500, minHeight: 500}}>
+            <h1 id="coin-title">{name}</h1>
             <Tabs defaultActiveKey="today" id="tabs" className="mb-2" >
                 <Tab eventKey="today" title="Today">
                     <ResponsiveContainer width="50%" height="100%" minWidth={500} minHeight={350}>

@@ -58,3 +58,11 @@ html {
   background-color: rgb(1, 1, 48);
   color: white;
 }
+
+.coinItem:hover {
+  background-color: rgba(255, 255, 255, 0.151);
+}
+
+#coinlist::-webkit-scrollbar {
+  display: none;
+}

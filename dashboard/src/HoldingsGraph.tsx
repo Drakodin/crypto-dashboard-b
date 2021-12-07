@@ -4,21 +4,40 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function HoldingsGraph() {
-    const dataImported = [
-        {
-            id: 'bitcoin',
-            shares: 60
-        },
-        {
-            id: 'ethereum',
-            shares: 40
-        },
-        {
-            id: 'binancecoin',
-            shares: 10
-        },
-    ];
+    // const dataImported = [
+    //     {
+    //         id: 'bitcoin',
+    //         shares: 60
+    //     },
+    //     {
+    //         id: 'ethereum',
+    //         shares: 40
+    //     },
+    //     {
+    //         id: 'binancecoin',
+    //         shares: 10
+    //     },
+    // ];
+    const [dataImported, setImported] = useState([{id: "", name: "", coins: 0}]);
+    const getData=()=> {
+        fetch('holdings.json', {
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+               }
+            })
+            .then(function(response){
+                //console.log(response)
+                return response.json();
+            })
+            .then(function(myJson) {
+                setImported(myJson);
+            }); 
+    }
 
+    useEffect(() => {
+        getData();
+    }, [])
     var coins = [];
     if (dataImported != null) {
         for (var i = 0; i < dataImported.length; i++) {
