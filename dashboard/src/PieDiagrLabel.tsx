@@ -49,25 +49,25 @@ const circlesrender = (dataStr: any[]) => {
   ) 
 }
 
-const totalrender = (data:any,apidata:any) => {
+const totalrender = (data:any,dataStr:any,apidata:any) => {
   // console.log('totalrender apidata')
   // console.log(apidata)
-  let tex = ''
+  let tex = dataStr[0]
   console.log('data with problems')
   console.log(data)
   console.log(typeof data[0])
 
-  if ((apidata === [])){
-    tex = 'Total'
-  }
-  else{
-    let sum = 0
-    for (let i=0; i<apidata.length;i++){
-      sum += parseFloat(apidata[i].current_price)*parseFloat(data[i].coins)
-    }
-    // console.log(sum)
-    tex = 'Total - '+Math.round(sum)+'$'
-  }
+  // if ((apidata === [])){
+  //   tex = 'Total'
+  // }
+  // else{
+  //   let sum = 0
+  //   for (let i=0; i<apidata.length;i++){
+  //     sum += parseFloat(apidata[i].current_price)*parseFloat(data[i].coins)
+  //   }
+  //   // console.log(sum)
+  //   tex = 'Total - '+Math.round(sum)+'$'
+  // }
   
   return (
     <div>
@@ -190,7 +190,7 @@ console.log(apidata)
           {labelsrender(dataStr)}
         </div>
         <div style={divStyle3}> 
-          {totalrender(data,apidata)}
+          {totalrender(data,dataStr,apidata)}
         </div>
       </div>
   )
