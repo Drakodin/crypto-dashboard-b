@@ -57,17 +57,19 @@ const totalrender = (data:any,dataStr:any,apidata:any) => {
   console.log(data)
   console.log(typeof data[0])
 
-  // if ((apidata === [])){
-  //   tex = 'Total'
-  // }
-  // else{
-  //   let sum = 0
-  //   for (let i=0; i<apidata.length;i++){
-  //     sum += parseFloat(apidata[i].current_price)*parseFloat(data[i].coins)
-  //   }
-  //   // console.log(sum)
-  //   tex = 'Total - '+Math.round(sum)+'$'
-  // }
+  
+    try{
+      let sum = 0
+    for (let i=0; i<apidata.length;i++){
+      sum += parseFloat(apidata[i].current_price)*parseFloat(data[i].coins)
+    }
+    // console.log(sum)
+    tex = 'Total - '+Math.round(sum)+'$'
+    } catch (error){
+      console.error(error);
+      tex = 'Total'
+    }
+  
   
   return (
     <div>
@@ -80,7 +82,7 @@ const totalrender = (data:any,dataStr:any,apidata:any) => {
 
 function PieDiagrLabel() {
 
-  const [data , setData] = useState<any>([]);
+  const [datal , setData] = useState<any>([]);
   const getData=()=> {
       fetch('holdings.json', {
           headers : { 
@@ -100,16 +102,16 @@ function PieDiagrLabel() {
       getData()
   }, [])
 
-  data.sort((a:any, b:any) => parseFloat(b.coins) - parseFloat(a.coins));
+  datal.sort((a:any, b:any) => parseFloat(b.coins) - parseFloat(a.coins));
 
   
   let coins = []
-  for (let i = 0; i < data.length; i++) {
-    coins.push(data[i].name)
+  for (let i = 0; i < datal.length; i++) {
+    coins.push(datal[i].name)
 }
   let str = '';
-    for (let i = 0; i < data.length; i++) {
-      if (i === data.length - 1) {
+    for (let i = 0; i < datal.length; i++) {
+      if (i === datal.length - 1) {
             str += coins[i].toLowerCase() ;
         } else {
             str += coins[i].toLowerCase() + '%2C%20';
@@ -123,10 +125,10 @@ function PieDiagrLabel() {
     const getApi = async () => {
       const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20litecoin');
       //I wanted to sustitute the link with the url variable, but if I do so some error appears and it doesn t work//
-      const data = await response.json();
-      setApidata(data);
+      const dataaa = await response.json();
+      setApidata(dataaa);
       console.log('datadatdatdata')
-      console.log(data)
+      console.log(dataaa)
     }
 useEffect(() => {
   getApi()
@@ -135,10 +137,10 @@ console.log(apidata)
 
   let sum = 0 //sum of all values
   let max = 0 //max length of a line
-  for (let i=0; i<data.length;i++){
-    sum += data[i]['coins']
+  for (let i=0; i<datal.length;i++){
+    sum += datal[i]['coins']
   }
-  const dataStr = data.map((dict : any) => dict.name+` - ${(dict.coins/sum * 100).toFixed(0)}%`)
+  const dataStr = datal.map((dict : any) => dict.name+` - ${(dict.coins/sum * 100).toFixed(0)}%`)
   dataStr.unshift('Total - '+sum+'$') //contains all lines to be rendered
   for (let i=0; i<dataStr.length;i++){
     if (max < getTextWidth(dataStr[i])){
@@ -147,7 +149,7 @@ console.log(apidata)
   }
   max = max - 0 //adjusting max for the circles on the left
   const heightLetter = height(dataStr[0])['height']
-  const heightBlock = (heightLetter+parseInt(margintopused.slice(0,-2),10))*data.length
+  const heightBlock = (heightLetter+parseInt(margintopused.slice(0,-2),10))*datal.length
 
 
 
@@ -190,7 +192,7 @@ console.log(apidata)
           {labelsrender(dataStr)}
         </div>
         <div style={divStyle3}> 
-          {totalrender(data,dataStr,apidata)}
+          {totalrender(datal,dataStr,apidata)}
         </div>
       </div>
   )
